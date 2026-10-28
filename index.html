@@ -35,8 +35,6 @@ h1 span{color:var(--accent)}
 .window-bar span{margin:auto;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);padding-right:33px}
 video,.poster{display:block;width:100%;height:auto;aspect-ratio:640/620;object-fit:contain;background:#fff}
 .poster{display:none}
-.motion-toggle{position:absolute;right:12px;bottom:12px;border:1px solid #eeded7;background:#fffaf7;color:#786a5c;border-radius:99px;padding:8px 12px;font:500 11px Inter,system-ui,sans-serif;cursor:pointer}
-.motion-toggle:hover{background:#f8ece7}
 figcaption{margin-top:13px;font-size:11px;color:var(--muted);text-align:center;line-height:1.5}
 .downloads{text-align:center;margin-top:32px}
 .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
@@ -54,7 +52,7 @@ footer a{color:inherit;text-underline-offset:3px}
 @media(min-width:1400px){main{padding-top:64px}}
 @media(max-width:800px){main{max-width:590px;padding:40px 22px 0}.hero{grid-template-columns:1fr;gap:32px}.intro{text-align:center;padding:0}.icon{width:126px}.name{margin-top:23px}h1{font-size:58px}.description{margin:18px auto 0;max-width:350px;font-size:16px}.demo{max-width:440px;width:100%;margin:auto}.downloads{margin-top:30px}.features{gap:16px 22px;margin-top:28px;padding-top:24px}.window{border-radius:20px}}
 @media(max-width:380px){.btn{width:100%}.ctas{gap:10px}.description{font-size:15px}.features{flex-direction:column;align-items:center}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}video{display:none}.poster{display:block}.motion-toggle{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}video{display:none}.poster{display:block}}
 </style>
 </head>
 <body>
@@ -75,7 +73,6 @@ footer a{color:inherit;text-underline-offset:3px}
           <img src="media/pawductive-demo-poster.png" alt="Gigi beside a list of three sample priorities in Pawductive">
         </video>
         <img class="poster" src="media/pawductive-demo-poster.png" width="640" height="620" alt="Pawductive’s priority list: Send the proposal, Take a proper break, and Make time for a walk, with Gigi underneath">
-        <button class="motion-toggle" type="button" aria-controls="app-demo" aria-label="Play demo">Play demo</button>
       </div>
       <figcaption>The actual app, with a few sample priorities.</figcaption>
     </figure>
@@ -103,13 +100,8 @@ footer a{color:inherit;text-underline-offset:3px}
 <footer>Made with treats in Melbourne · <a href="https://github.com/lawesomes/pawductive/releases/latest">v0.3.1</a> · <a href="https://github.com/lawesomes/pawductive">GitHub</a></footer>
 <script>
 const video=document.querySelector('#app-demo');
-const toggle=document.querySelector('.motion-toggle');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-function updateToggle(){const label=video.paused?'Play demo':'Pause demo';toggle.textContent=label;toggle.setAttribute('aria-label',label)}
-video.addEventListener('play',updateToggle);
-video.addEventListener('pause',updateToggle);
-toggle.addEventListener('click',()=>{if(video.paused)video.play().catch(updateToggle);else video.pause()});
-function respectMotion(){if(reduced.matches)video.pause();else video.play().catch(updateToggle)}
+function respectMotion(){if(reduced.matches)video.pause();else video.play().catch(()=>{})}
 reduced.addEventListener('change',respectMotion);
 respectMotion();
 </script>
